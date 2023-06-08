@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>MouseCheck</title>
+  <style>
+    body {
+      background-color: #333333;
+      font-family: 'Montserrat', sans-serif;
+    }
+
+    h1, p {
+      color: yellow;
+    }
+
+    #action {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 24px;
+      font-weight: bold;
+      text-align: center;
+      color: yellow;
+    }
+  </style>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap" rel="stylesheet">
+</head>
+<body>
+  <h1>MouseCheck</h1>
+
+  <div id="action"></div>
+
+  <p id="actionList"></p>
+
+  <script>
+    var actions = [];
+
+    document.addEventListener("click", function(event) {
+      addAction("Click");
+    });
+
+    document.addEventListener("contextmenu", function(event) {
+      event.preventDefault(); // Prevent right-click context menu
+      addAction("Right Click");
+    });
+
+    document.addEventListener("auxclick", function(event) {
+      if (event.button === 1) {
+        addAction("Middle Click");
+      }
+    });
+
+    document.addEventListener("wheel", function(event) {
+      if (event.deltaY < 0) {
+        addAction("Scroll Up");
+      } else {
+        addAction("Scroll Down");
+      }
+      event.preventDefault();
+    });
+
+    function addAction(action) {
+      actions.push(action);
+      displayActions();
+    }
+
+    function displayActions() {
+      var actionListElement = document.getElementById("actionList");
+      actionListElement.textContent = actions.join(", ");
+    }
+  </script>
+</body>
+</html>
