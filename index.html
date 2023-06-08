@@ -22,6 +22,14 @@
       text-align: center;
       color: yellow;
     }
+
+    #info {
+      position: fixed;
+      bottom: 10px;
+      left: 10px;
+      font-size: 14px;
+      color: yellow;
+    }
   </style>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap" rel="stylesheet">
 </head>
@@ -32,8 +40,11 @@
 
   <p id="actionList"></p>
 
+  <div id="info"></div>
+
   <script>
     var actions = [];
+    var scrollSpeed = 0;
 
     document.addEventListener("click", function(event) {
       addAction("Click");
@@ -53,8 +64,10 @@
     document.addEventListener("wheel", function(event) {
       if (event.deltaY < 0) {
         addAction("Scroll Up");
+        scrollSpeed = event.deltaY;
       } else {
         addAction("Scroll Down");
+        scrollSpeed = event.deltaY;
       }
       event.preventDefault();
     });
@@ -68,6 +81,14 @@
       var actionListElement = document.getElementById("actionList");
       actionListElement.textContent = actions.join(", ");
     }
+
+    function updateInfo() {
+      var infoElement = document.getElementById("info");
+      var hz = (1000 / (1000 / scrollSpeed)).toFixed(2);
+      infoElement.textContent = "Polling Rate: " + hz + "Hz";
+    }
+
+    setInterval(updateInfo, 100);
   </script>
 </body>
 </html>
